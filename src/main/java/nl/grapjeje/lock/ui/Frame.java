@@ -37,16 +37,16 @@ public abstract class Frame extends Application {
         this.stage = stage;
 
         stage.initStyle(StageStyle.UNDECORATED);
-        stage.setTitle("Wachtwoord Verificatie");
+        stage.setTitle(this.name);
         stage.setAlwaysOnTop(true);
 
         stage.setOnShowing(e -> {
             Screen screen = Screen.getPrimary();
             javafx.geometry.Rectangle2D bounds = screen.getVisualBounds();
 
-            double margin = 20;
-            stage.setX(bounds.getMaxX() - 400 - margin);
-            stage.setY(bounds.getMaxY() - 350 - margin);
+            double margin = 5;
+            stage.setX(bounds.getMaxX() - width - margin);
+            stage.setY(bounds.getMaxY() - height - margin);
         });
 
         VBox mainContainer = new VBox();
@@ -66,6 +66,10 @@ public abstract class Frame extends Application {
     }
 
     public abstract void frame();
+
+    protected void setupEventHandlers() {
+
+    }
 
     public void add(Node e) {
         this.root.getChildren().add(e);

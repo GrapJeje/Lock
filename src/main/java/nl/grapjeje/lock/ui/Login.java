@@ -171,7 +171,8 @@ public class Login extends Frame {
         this.setupEventHandlers();
     }
 
-    private void setupEventHandlers() {
+    @Override
+    protected void setupEventHandlers() {
         confirmPasswordField.textProperty().addListener((_, _, _)
                 -> this.validatePasswords());
 

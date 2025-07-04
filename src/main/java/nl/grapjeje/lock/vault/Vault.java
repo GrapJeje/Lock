@@ -59,11 +59,10 @@ public class Vault {
         Files.write(Path.of(VAULT_PATH), output.toByteArray());
     }
 
-    public static void createVault() {
+    public static void createVault(String masterPassword) throws Exception {
         try {
-            String tempPassword = "temporaryMaster123";
             List<Account> emptyList = new ArrayList<>();
-            saveAccounts(emptyList, tempPassword);
+            saveAccounts(emptyList, masterPassword);
             System.out.println("Vault created with temporary master password.");
         } catch (Exception e) {
             System.err.println("Failed to create vault: " + e.getMessage());
