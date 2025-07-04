@@ -2,14 +2,11 @@ package nl.grapjeje.lock.ui;
 
 import javafx.application.Application;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Scene;
+import javafx.scene.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import javafx.stage.*;
 
 public abstract class Frame extends Application {
     protected Stage stage;

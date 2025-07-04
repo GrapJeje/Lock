@@ -7,6 +7,10 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import nl.grapjeje.lock.Account;
+import nl.grapjeje.lock.vault.Vault;
+
+import java.util.List;
 
 public class Login extends Frame {
     private PasswordField passwordField;
@@ -183,7 +187,15 @@ public class Login extends Frame {
             if (this.validatePasswords()) {
                 String password = passwordField.getText();
                 if (!password.isEmpty()) {
-                    System.out.println("Toegang verleend! Wachtwoord correct ingevoerd.");
+
+                    try {
+                        List<Account> accounts = Vault.loadAccounts(password);
+                        for (Account acc : accounts) {
+                            System.out.println("Account: " + acc.name() + " - " + acc.username());
+                        }
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
                     stage.close();
                 } else this.showStatus("Voer een wachtwoord in", true);
             }

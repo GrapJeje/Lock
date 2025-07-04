@@ -59,6 +59,27 @@ public class Vault {
         Files.write(Path.of(VAULT_PATH), output.toByteArray());
     }
 
+    public static List<Account> loadAccounts(String masterPassword) throws Exception {
+        byte[] data = Files.readAllBytes(Path.of(VAULT_PATH));
+
+        byte[] salt = new byte[SALT_LENGTH];
+        byte[] iv = new byte[IV_LENGTH];
+        byte[] encrypted = new byte[data.length - SALT_LENGTH - IV_LENGTH];
+
+        System.arraycopy(data, 0, salt, 0, SALT_LENGTH);
+        System.arraycopy(data, SALT_LENGTH, iv, 0, IV_LENGTH);
+        System.arraycopy(data, SALT_LENGTH + IV_LENGTH, encrypted, 0, encrypted.length);
+
+        SecretKey key = deriveKey(masterPassword, salt);
+
+        Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+        cipher.init(Cipher.DECRYPT_MODE, key, new GCMParameterSpec(128, iv));
+        byte[] decrypted = cipher.doFinal(encrypted);
+
+        String json = new String(decrypted, StandardCharsets.UTF_8);
+        return Account.JsonToList(json);
+    }
+
     public static void createVault(String masterPassword) throws Exception {
         try {
             List<Account> emptyList = new ArrayList<>();

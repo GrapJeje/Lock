@@ -67,7 +67,7 @@ public record Account(
         return sb.toString();
     }
 
-    public static List<Account> listFromJson(String json) {
+    public static List<Account> JsonToList(String json) {
         json = json.trim();
         if (json.startsWith("[")) json = json.substring(1);
         if (json.endsWith("]")) json = json.substring(0, json.length() - 1);

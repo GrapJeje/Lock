@@ -3,12 +3,10 @@ package nl.grapjeje.lock.ui;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.stage.StageStyle;
 import nl.grapjeje.lock.vault.Vault;
 
 public class CreateVault extends Frame {
