@@ -183,20 +183,20 @@ public class Login extends Frame {
         passwordField.textProperty().addListener((_, _, _)
                 -> this.validatePasswords());
 
-        confirmButton.setOnAction(e -> {
+        confirmButton.setOnAction(_ -> {
             if (this.validatePasswords()) {
                 String password = passwordField.getText();
                 if (!password.isEmpty()) {
-
                     try {
-                        List<Account> accounts = Vault.loadAccounts(password);
-                        for (Account acc : accounts) {
-                            System.out.println("Account: " + acc.name() + " - " + acc.username());
-                        }
+                        Vault.loadAccounts(password);
+                        AccountsView view = new AccountsView(password);
+                        view.setStage(stage);
+                        stage.close();
+                        view.show();
+
                     } catch (Exception ex) {
-                        throw new RuntimeException(ex);
+                        this.showStatus("Onjuist wachtwoord voor bestaande vault", true);
                     }
-                    stage.close();
                 } else this.showStatus("Voer een wachtwoord in", true);
             }
         });
