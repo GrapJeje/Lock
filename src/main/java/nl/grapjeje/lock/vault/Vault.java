@@ -63,7 +63,7 @@ public class Vault {
         try {
             List<Account> emptyList = new ArrayList<>();
             saveAccounts(emptyList, masterPassword);
-            System.out.println("Vault created with temporary master password.");
+            System.out.println("Vault created...");
         } catch (Exception e) {
             System.err.println("Failed to create vault: " + e.getMessage());
             e.printStackTrace();
