@@ -228,11 +228,18 @@ public class CreateVault extends Frame {
                 if (this.isStrongPassword(password)) {
                     try {
                         Vault.createVault(password);
+                        try {
+                            Vault.loadAccounts(password);
+                            AccountsView view = new AccountsView(password);
+                            view.setStage(stage);
+                            stage.close();
+                            view.show();
+                        } catch (Exception ex) {
+                            this.showStatus("Onjuist wachtwoord voor bestaande vault", true);
+                        }
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }
-
-                    stage.close();
                 } else this.showStatus("Wachtwoord is niet sterk genoeg", true);
             }
         });

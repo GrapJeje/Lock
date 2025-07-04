@@ -193,7 +193,6 @@ public class Login extends Frame {
                         view.setStage(stage);
                         stage.close();
                         view.show();
-
                     } catch (Exception ex) {
                         this.showStatus("Onjuist wachtwoord voor bestaande vault", true);
                     }
