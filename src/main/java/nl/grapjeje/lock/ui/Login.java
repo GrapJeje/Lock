@@ -7,10 +7,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import nl.grapjeje.lock.Account;
 import nl.grapjeje.lock.vault.Vault;
-
-import java.util.List;
 
 public class Login extends Frame {
     private PasswordField passwordField;
@@ -33,7 +30,8 @@ public class Login extends Frame {
         titleLabel.setFont(Font.font("Segoe UI", FontWeight.BOLD, 20));
         titleLabel.setTextFill(Color.WHITE);
 
-        Label subtitleLabel = new Label("Voer je wachtwoord tweemaal in om verder te gaan");
+        Label subtitleLabel;
+        subtitleLabel = new Label("Voer je master wachtwoord in");
         subtitleLabel.setFont(Font.font("Segoe UI", 13));
         subtitleLabel.setTextFill(Color.web("#CCCCCC"));
 
@@ -44,7 +42,7 @@ public class Login extends Frame {
         formContainer.setPadding(new Insets(0, 40, 30, 40));
 
         VBox passwordContainer = new VBox(8);
-        Label passwordLabel = new Label("Wachtwoord (1e keer):");
+        Label passwordLabel = new Label("Wachtwoord:");
         passwordLabel.setFont(Font.font("Segoe UI", FontWeight.MEDIUM, 13));
         passwordLabel.setTextFill(Color.WHITE);
 
@@ -66,7 +64,7 @@ public class Login extends Frame {
         passwordContainer.getChildren().addAll(passwordLabel, passwordField);
 
         VBox confirmContainer = new VBox(8);
-        Label confirmLabel = new Label("Wachtwoord (2e keer):");
+        Label confirmLabel = new Label("Herhaal wachtwoord:");
         confirmLabel.setFont(Font.font("Segoe UI", FontWeight.MEDIUM, 13));
         confirmLabel.setTextFill(Color.WHITE);
 
@@ -110,7 +108,7 @@ public class Login extends Frame {
                         "-fx-font-weight: bold;"
         );
 
-        confirmButton = new Button("Toegang Verlenen");
+        confirmButton = new Button("Inloggen");
         confirmButton.setPrefWidth(150);
         confirmButton.setPrefHeight(35);
         confirmButton.setStyle(
@@ -188,15 +186,25 @@ public class Login extends Frame {
                 String password = passwordField.getText();
                 if (!password.isEmpty()) {
                     try {
-                        Vault.loadAccounts(password);
-                        AccountsView view = new AccountsView(password);
-                        view.setStage(stage);
-                        stage.close();
-                        view.show();
+                            try {
+                                Vault.loadAccounts(password);
+                                AccountsView view = new AccountsView(password);
+                                view.setStage(stage);
+                                stage.close();
+                                view.show();
+                            } catch (SecurityException e) {
+                                this.showStatus("Onjuist wachtwoord", true);
+                            } catch (Exception e) {
+                                this.showStatus("Fout bij laden vault: " + e.getMessage(), true);
+                                e.printStackTrace();
+                            }
                     } catch (Exception ex) {
-                        this.showStatus("Onjuist wachtwoord voor bestaande vault", true);
+                        this.showStatus("Fout: " + ex.getMessage(), true);
+                        ex.printStackTrace();
                     }
-                } else this.showStatus("Voer een wachtwoord in", true);
+                } else {
+                    this.showStatus("Voer een wachtwoord in", true);
+                }
             }
         });
 
